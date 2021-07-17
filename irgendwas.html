@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Quiz, JavaScript, CSS">
+    <meta name="description" content="Simple Quiz for exercises">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Lukas Seiler">
+    <title>Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="container"
+        style="width: 50vw; margin: auto; text-align: center; font-family: 'Open Sans', sans-serif; margin-top: 50px;">
+        <img id="gif" src="win.gif" alt="Be patient..." style="display: none; position: absolute; width: 50%;" />
+        <h1 id="Frage">Welcome to my quiz</h1>
+        <hr style="height: 2px; border: none; background-color: rgba(0, 183, 255, 0.897);">
+        <p id="Antworten" onclick="startTheGame()" style="cursor: pointer;">Click here to start the quiz!</p>
+
+
+        <div id="button-field" style="display: flex; flex-direction: row;">
+            <div id="1" class="button" onclick="myChoice(this)">
+                <p>1</p>
+            </div>
+            <div id="2" class="button" onclick="myChoice(this)">
+                <p>2</p>
+            </div>
+            <div id="3" class="button" onclick="myChoice(this)">
+                <p>3</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<style>
+    .button {
+        width: 25%;
+        height: 200px;
+        margin-top: 200px;
+        margin-left: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid black;
+        font-size: 25px;
+        box-shadow: 10px -10px rgba(0, 183, 255, 0.897);
+    }
+</style>
+
+<script>
+
+    var block = true;
+    var rounds = 0;
+    var wins = 0;
+    var questions = [];
+    var answer;
+    var question_element = document.getElementById("Frage");
+    var answers_element = document.getElementById("Antworten");
+    var button1 = document.getElementById("1");
+    var button2 = document.getElementById("2");
+    var button3 = document.getElementById("3");
+
+
+    setQuestions();
+
+    function myChoice(button) {
+        let id = button.id;
+        if (block == true) { return }
+        else { block = true; }
+
+        if (id == answer) {
+            wins++;
+            button.style.boxShadow = "10px -10px teal";
+        } else {
+            button.style.boxShadow = "10px -10px red";
+        }
+    }
+
+    function startTheGame() {
+
+        if (rounds < 5) {
+            block = false;
+            rounds++;
+            question = questions.shift();
+            question_splitted = question.split("#");
+            question_element.innerHTML = question_splitted[0];
+            answers_element.innerHTML = question_splitted[1];
+            answer = question_splitted[2];
+            button1.style.boxShadow = "10px -10px rgba(0, 183, 255, 0.897)";
+            button2.style.boxShadow = "10px -10px rgba(0, 183, 255, 0.897)";
+            button3.style.boxShadow = "10px -10px rgba(0, 183, 255, 0.897)";
+            setTimeout(startTheGame, 3000);
+        } else {
+            block = true;
+            gif.style.display = "block";
+            setTimeout(displayMessage, 1000);
+        }
+    }
+
+    function displayMessage() {
+        alert("You finished the quiz and have made " + wins + " points.");
+    }
+
+    function setQuestions() {
+
+        questions[0] = "What are the names of Donald Duck's three nephews?#1) Huey, Dewey and Louie 2) Lewis, Tony and Owen 3) Levi, David and Daniel#1";
+        questions[1] = "Which three sports make up the triathlon?#1) Climbing, Swimming, Running 2) Running, Cycling, Swimming 3) Cycling, Swimming, Skateboarding#2";
+        questions[2] = "Which three of Santa's reindeer begin with the letter D?#1) Donner, Dasher and Dancer 2) Donner, Darragh and Dancer 3) Donner, Daniel and Dancer#1";
+        questions[3] = "What are the names of the three musketeers?#1) Athos, Partos, Aremis 2) Antos, Portas, Armais 3) Athos, Portos and Aramis#3";
+        questions[4] = "Which three countries does Luxembourg border?#1) Germany, Netherlands and Belgium 2) France, Germany and Belgium 3) France, Germany and Switzerland#2";
+        questions[5] = "Which planet is the biggest one in our solar system?#1) Sun 2) Jupiter 3) Saturn#2";
+        questions[6] = "Which was the first commercially available programming language?#1) Autocode 2) Comtran 3) Fortran#3";
+        questions[7] = "Who discovered india?#1) Vasco da Gama 2) Christoph Kolumbus 3) Amerigo Vespucci#1";
+        questions[8] = "Who won the FIFA world cup in the year 2006?#1) Germany 2) Italy 3) France#2";
+        questions[9] = "Which was the most viewed movie of all time?#1) The Wizard of Oz 2) The Lion King 3) Titanic#3";
+        questions[10] = "What chemical element will you definitly not find on the moon?#1) Neptunium 2) Titanium 3) Oxygen#1";
+
+        for (let i = 0; i < 10; i++) {
+            questions.sort(function (a, b) { return Math.random() - 0.5 });
+        }
+    }
+
+
+</script>
+
+</html>
